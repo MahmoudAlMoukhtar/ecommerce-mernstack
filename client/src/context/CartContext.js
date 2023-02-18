@@ -8,10 +8,14 @@ const CartProvider = ({children}) => {
   const [error, setError] = useState(null);
   useEffect(() => {
     const fun = async () => {
+      const user = JSON.parse(localStorage.getItem("userEcommerce"));
       try {
-        console.log("test");
-        const {data} = await api.fetchCart();
-        setCartProducts(data);
+        if (user) {
+          const {data} = await api.fetchCart();
+          setCartProducts(data);
+        } else {
+          setCartProducts([]);
+        }
       } catch (e) {
         if (e) setError(e);
       } finally {
